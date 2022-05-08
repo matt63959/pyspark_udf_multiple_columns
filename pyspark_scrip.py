@@ -36,7 +36,7 @@ schema = T.StructType(
 # the field could even be another structure, and so we shuld identify its type as 
 # T.StructType([T.StructField('field1', T.Type1Type, True),...]).
 
-df = spark.read.csv('us-counties.csv', header=True, schema=schema) 
+df = spark.read.csv('dataset.csv', header=True, schema=schema) 
 
 # As we want the data per state we must sum the cases and death per state and date, so 
 
@@ -62,8 +62,13 @@ def create_columnsS(par):
     for i in range(len(par)):
         dates.append((par[i]['date'], i))
         
+        
     dates.sort() # this will give us the dates in the order and the index to acess the date in 
     # that day contained in row
+    
+    dates = [dates[0]]*(7-len(dates)) + dates #just in case we donte have seven days in our list
+    
+    
     
     day_1_date = dates[-7][0]
     day_2_date = dates[-6][0]
